@@ -6,25 +6,14 @@
 package pl.lodz.p.it.java.facades;
 
 import java.util.List;
-
-import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
-
-import pl.lodz.p.it.java.exceptions.AbstractException;
-import pl.lodz.p.it.java.exceptions.ExceptionConverter;
-import pl.lodz.p.it.java.exceptions.PersException;
-import pl.lodz.p.it.java.inceptors.LoggerInterceptor;
 
 /**
  *
- * @author Szymon Kaminski
+ * @author Mateusz
  */
-@SuppressWarnings("unchecked")
-@Interceptors(LoggerInterceptor.class)
 public abstract class AbstractFacade<T> {
-
-    private final Class<T> entityClass;
+    private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -32,34 +21,16 @@ public abstract class AbstractFacade<T> {
 
     protected abstract EntityManager getEntityManager();
 
-    public void create(T entity) throws AbstractException {
-        try {
-            getEntityManager().persist(entity);
-            getEntityManager().flush();
-        } catch (Exception e) {
-            throw ExceptionConverter.convert(e);
-        }
+    public void create(T entity) {
+        getEntityManager().persist(entity);
     }
 
-    public void edit(T entity) throws AbstractException {
-            getEntityManager().merge(entity);
-           
-            
-        try {
-            getEntityManager().flush();
-        }
-        catch (Exception e) {
-            throw ExceptionConverter.convert(e);
-        }
+    public void edit(T entity) {
+        getEntityManager().merge(entity);
     }
 
-    public void remove(T entity) throws AbstractException {
-        try {
-            getEntityManager().remove(getEntityManager().merge(entity));
-            getEntityManager().flush();
-        } catch (Exception e) {
-            throw ExceptionConverter.convert(e);
-        }
+    public void remove(T entity) {
+        getEntityManager().remove(getEntityManager().merge(entity));
     }
 
     public T find(Object id) {
@@ -88,6 +59,5 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-
+    
 }
-

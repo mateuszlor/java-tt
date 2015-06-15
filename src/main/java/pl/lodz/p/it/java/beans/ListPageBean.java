@@ -5,57 +5,77 @@
  */
 package pl.lodz.p.it.java.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import javax.inject.Inject;
 import javax.inject.Named;
+import pl.lodz.p.it.java.model.Capacitors;
 
-import pl.lodz.p.it.java.facades.CSV;
 import pl.lodz.p.it.java.model.Element;
-import pl.lodz.p.it.java.model.Set;
-
+import pl.lodz.p.it.java.model.Resistors;
+import pl.lodz.p.it.java.model.UCs;
+import pl.lodz.p.it.java.session.Session;
 
 @Named(value = "listPageBean")
 @RequestScoped
 public class ListPageBean {
 
-	private List<Element> elements;
-	private DataModel<Element> elementsDataModel;
-	private String selected;
-	private CSV csv;
+    @Inject
+    Session session;
 
-	public DataModel<Element> getElementsDataModel() {
-//		csv.save();
-		System.out.println("aaa");
-		return elementsDataModel;
-	}
+    private List<Resistors> resistors;
+    private List<Capacitors> capacitors;
+    private List<UCs> ucs;
+    private DataModel<Resistors> resistorsDataModel;
+    private DataModel<Capacitors> capacitorsDataModel;
+    private DataModel<UCs> ucsDataModel;
 
-	public String getSelected() {
-		return selected;
-	}
+    public DataModel<Resistors> getResistorsDataModel() {
+        return resistorsDataModel;
+    }
 
-	public void setSelected(String selected) {
-		this.selected = selected;
-	}
+    public void setResistorsDataModel(DataModel<Resistors> resistorsDataModel) {
+        this.resistorsDataModel = resistorsDataModel;
+    }
 
-	@PostConstruct
-	private void initModel() {
-		Set set = new Set();
-		elements = set.getElements();
-		elementsDataModel = new ListDataModel<Element>(elements);
-		csv = new CSV(set); 
-		csv.save();
-	}
-	
-//	public void save() {
-//
-//		csv.save();
-//		System.out.println("aaa");
-//	}
-	public String test() {
-		return "test";
-	}
+    public DataModel<Capacitors> getCapacitorsDataModel() {
+        return capacitorsDataModel;
+    }
+
+    public void setCapacitorsDataModel(DataModel<Capacitors> capacitorsDataModel) {
+        this.capacitorsDataModel = capacitorsDataModel;
+    }
+
+    public DataModel<UCs> getUcsDataModel() {
+        return ucsDataModel;
+    }
+
+    public void setUcsDataModel(DataModel<UCs> ucsDataModel) {
+        this.ucsDataModel = ucsDataModel;
+    }
+    private String selected;
+
+    public String getSelected() {
+        return selected;
+    }
+
+    public void setSelected(String selected) {
+        this.selected = selected;
+    }
+
+    @PostConstruct
+    private void initModel() {
+        resistors = session.getAllResistors();
+        capacitors = session.getAllCapacitors();
+        ucs = session.getAllUCs();
+        resistorsDataModel = new ListDataModel(resistors);
+        capacitorsDataModel = new ListDataModel(capacitors);
+        ucsDataModel = new ListDataModel(ucs);
+    }
 }
