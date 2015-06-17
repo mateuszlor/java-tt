@@ -8,11 +8,15 @@ package pl.lodz.p.it.java.model;
 import java.io.Serializable;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -30,95 +34,123 @@ import javax.xml.bind.annotation.XmlRootElement;
 @TableGenerator(name = "ResistorsIdGen", table = "generator", pkColumnName = "class_name", valueColumnName = "id_range", pkColumnValue = "Resistors")
 @XmlRootElement
 @NamedQueries({
-		@NamedQuery(name = "Resistors.findAll", query = "SELECT r FROM Resistors r"),
-		@NamedQuery(name = "Resistors.findById", query = "SELECT r FROM Resistors r WHERE r.id = :id"),
-		@NamedQuery(name = "Resistors.findByR", query = "SELECT r FROM Resistors r WHERE r.r = :r"),
-		@NamedQuery(name = "Resistors.findByUnit", query = "SELECT r FROM Resistors r WHERE r.unit = :unit") })
+    @NamedQuery(name = "Resistors.findAll", query = "SELECT r FROM Resistors r"),
+    @NamedQuery(name = "Resistors.findById", query = "SELECT r FROM Resistors r WHERE r.id = :id"),
+    @NamedQuery(name = "Resistors.findByR", query = "SELECT r FROM Resistors r WHERE r.r = :r"),
+    @NamedQuery(name = "Resistors.findByUnit", query = "SELECT r FROM Resistors r WHERE r.unit = :unit")})
 public class Resistors implements Serializable, Element {
 
-	private static final long serialVersionUID = 1L;
-	@Id
-	@Basic(optional = false)
-	@NotNull
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "ResistorsIdGen")
-	@Column(name = "Id")
-	private Integer id;
-	@Basic(optional = false)
-	@NotNull
-	@Column(name = "R")
-	private int r;
-	@Basic(optional = false)
-	@NotNull
-	@Size(min = 1, max = 2147483647)
-	@Column(name = "Unit")
-	private String unit;
+    private static final long serialVersionUID = 1L;
 
-	public Resistors() {
-	}
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "ResistorsIdGen")
+    @Column(name = "Id")
 
-	public Resistors(Integer id) {
-		this.id = id;
-	}
+    private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "R")
 
-	public Resistors(Integer id, int r, String unit) {
-		this.id = id;
-		this.r = r;
-		this.unit = unit;
-	}
+    private int r;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2147483647)
+    @Column(name = "Unit")
+    private String unit;
 
-	public Integer getId() {
-		return id;
-	}
+    @NotNull
+    @Column(name = "used")
+    private boolean used = false;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @JoinTable(name = "projectresistor", joinColumns = {
+        @JoinColumn(name = "resistor", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "project", referencedColumnName = "id")})
+    private Projects project;
 
-	public int getR() {
-		return r;
-	}
+    public Resistors() {
+    }
 
-	public void setR(int r) {
-		this.r = r;
-	}
+    public Resistors(Integer id) {
+        this.id = id;
+    }
 
-	public String getUnit() {
-		return unit;
-	}
+    public Resistors(Integer id, int r, String unit) {
+        this.id = id;
+        this.r = r;
+        this.unit = unit;
+    }
 
-	public void setUnit(String unit) {
-		this.unit = unit;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setUnit(ResistanceUnit unit) {
-		this.unit = unit.toString();
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
-	}
+    public int getR() {
+        return r;
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are
-		// not set
-		if (!(object instanceof Resistors)) {
-			return false;
-		}
-		Resistors other = (Resistors) object;
-		if ((this.id == null && other.id != null)
-				|| (this.id != null && !this.id.equals(other.id))) {
-			return false;
-		}
-		return true;
-	}
+    public void setR(int r) {
+        this.r = r;
+    }
 
-	@Override
-	public String toString() {
-		return "pl.lodz.p.it.java.model.Resistors[ id=" + id + " ]";
-	}
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public void setUnit(ResistanceUnit unit) {
+        this.unit = unit.toString();
+    }
+
+    public Projects getProject() {
+        return project;
+    }
+
+    public void setProject(Projects project) {
+        this.project = project;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are
+        // not set
+        if (!(object instanceof Resistors)) {
+            return false;
+        }
+        Resistors other = (Resistors) object;
+        if ((this.id == null && other.id != null)
+                || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "pl.lodz.p.it.java.model.Resistors[ id=" + id + " ]";
+    }
 
 }

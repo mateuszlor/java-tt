@@ -35,10 +35,6 @@ public class AddCapacitorBean {
         return "list";
     }
 
-    public String goBack() {
-        return "success";
-    }
-
     public Capacitors getCapacitor() {
         return capacitor;
     }
@@ -71,9 +67,5 @@ public class AddCapacitorBean {
     private void initModel() {
         capacitor = new Capacitors();
         this.values = CapacityUnit.values();
-    }
-
-    public String test() {
-        return "test";
     }
 }

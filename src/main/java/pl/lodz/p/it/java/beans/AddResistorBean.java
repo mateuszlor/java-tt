@@ -9,7 +9,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.ConstraintViolationException;
 import pl.lodz.p.it.java.model.ResistanceUnit;
 
 import pl.lodz.p.it.java.model.Resistors;
@@ -28,19 +27,10 @@ public class AddResistorBean {
     private ResistanceUnit[] values;
 
     public String add() {
-        try {
-            resistor.setR(resistance);
-            resistor.setUnit(unit);
-            session.addResistor(resistor);
-            return "list";
-        } catch (Exception e)  {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public String goBack() {
-        return "success";
+        resistor.setR(resistance);
+        resistor.setUnit(unit);
+        session.addResistor(resistor);
+        return "list";
     }
 
     @PostConstruct

@@ -8,7 +8,7 @@
                 xmlns:form="http://www.springframework.org/tags/form">
 
     <ui:define name="top">
-        <p>Lista elementow | Katalog</p>
+        <p>Lista elementów</p>
     </ui:define>
 
     <ui:define name="left">
@@ -19,6 +19,10 @@
         <h:form>
             <h2>Kondensatory</h2>
             <h:dataTable var="row" value="#{listPageBean.capacitorsDataModel}">
+                <h:column id="used">
+                    <f:facet name="header">Wykorzystany</f:facet>
+                    <h:selectBooleanCheckbox value="#{row.used}" disabled="true" />
+                </h:column>
                 <h:column id="name">
                     <f:facet name="header">Pojemność</f:facet>
                     <h:outputText value="#{row.c} #{row.unit} F" />
@@ -28,6 +32,10 @@
             <h2>Oporniki</h2>
         <h:form>
             <h:dataTable var="row" value="#{listPageBean.resistorsDataModel}">
+                <h:column id="used">
+                    <f:facet name="header">Wykorzystany</f:facet>
+                    <h:selectBooleanCheckbox value="#{row.used}" disabled="true" />
+                </h:column>
                 <h:column id="name">
                     <f:facet name="header">Pojemność</f:facet>
                     <h:outputText value="#{row.r} #{row.unit} Omh" />
@@ -37,6 +45,10 @@
             <h2>Układy scalone</h2>
         <h:form>
             <h:dataTable var="row" value="#{listPageBean.ucsDataModel}">
+                <h:column id="used">
+                    <f:facet name="header">Wykorzystany</f:facet>
+                    <h:selectBooleanCheckbox value="#{row.used}" disabled="true" />
+                </h:column>
                 <h:column id="name">
                     <f:facet name="header">Nazwa</f:facet>
                     <h:outputText value="#{row.name}" />

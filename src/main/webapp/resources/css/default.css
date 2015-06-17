@@ -28,8 +28,6 @@ a:link:hover, a:visited:hover  {
   text-decoration : underline;
 }
 
-.red_alert {
-    color: red;
-    font-weight: bold;
-    text-decoration: underline;
+.label {
+    font-weight : bold;
 }

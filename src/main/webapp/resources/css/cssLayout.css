@@ -21,7 +21,7 @@
 	float: left;
 	background-color: #ece3a5;
 	padding: 5px;
-	width: 150px;
+	width: 200px;
 	min-height: 480px;
 }
 
@@ -42,14 +42,14 @@
 .left_content {
 	background-color: #dddddd;
 	padding: 5px;
-	margin-left: 170px;
+	margin-left: 220px;
 	min-height: 480px;
 }
 
 .right_content {
 	background-color: #dddddd;
 	padding: 5px;
-	margin: 0px 0px 0px 170px;
+	margin: 0px 0px 0px 220px;
 	min-height: 480px;
 }
 

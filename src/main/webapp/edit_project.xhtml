@@ -8,7 +8,7 @@
                 xmlns:form="http://www.springframework.org/tags/form">
 
     <ui:define name="top">
-        <p>Dodaj opornik | Katalog</p>
+        <p>Edytuj projekt</p>
     </ui:define>
 
     <ui:define name="left">
@@ -17,16 +17,11 @@
 
     <ui:define name="content">
         <h:form>
-            Opór: 
-            <h:inputText id="resistance" value="#{addResistorBean.resistance}" required="true" />
+            <h:inputText id="resistance" value="#{viewProjectBean.description}" required="true" />
             <br />
-            <h:selectOneListbox value="#{addResistorBean.unit}" >
-                <f:selectItems value="#{addResistorBean.values}" var="status" itemLabel="#{status.symbol}" />
-            </h:selectOneListbox>
-            <br />
-            <h:commandButton action="#{addResistorBean.add()}" value="Dodaj" /><br/>
+            <h:commandButton action="#{viewProjectBean.save()}" value="Zapisz" /><br />
+            <h:button outcome="view_project.xhtml" value="Anuluj" />
         </h:form>
-        <h:button value="Anuluj" outcome="list.xhtml" /><br/>
     </ui:define>
 </ui:composition>
 

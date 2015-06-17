@@ -6,11 +6,14 @@
 package pl.lodz.p.it.java.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,9 +41,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Projects implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Size(max = 2147483647)
-    @Column(name = "Description")
-    private String description;
+
     @Id
     @Basic(optional = false)
     @NotNull
@@ -48,63 +49,86 @@ public class Projects implements Serializable {
     @Column(name = "Id")
     private Integer id;
 
-    // bi-directional many-to-one association to Projectcapacitor
-    @OneToMany(mappedBy = "projectBean")
-    private List<Capacitors> projectcapacitors;
+    @Size(max = 2147483647)
+    @Column(name = "Description")
+    private String description;
 
-    // bi-directional many-to-one association to Projectuc
-    @OneToMany(mappedBy = "projectBean")
-    private List<UCs> projectucs;
+    @Basic(optional = false)
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private ProjectStatus status = ProjectStatus.planned;
 
-    // bi-directional many-to-one association to Projectresistor
-    @OneToMany(mappedBy = "projectBean")
-    private List<Resistors> projectresistors;
+    @OneToMany(mappedBy = "project")
+    private List<Capacitors> capacitors = new ArrayList<>();
+
+    @OneToMany(mappedBy = "project")
+    private List<Resistors> resistors = new ArrayList<>();
+
+    @OneToMany(mappedBy = "project")
+    private List<UCs> ucs = new ArrayList<>();
 
     public Projects() {
     }
 
-    public Projects(Integer id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Integer getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public List<Capacitors> getProjectcapacitors() {
-        return this.projectcapacitors;
+    public String getDescription() {
+        return this.description;
     }
 
-    public void setProjectcapacitors(List<Capacitors> projectcapacitors) {
-        this.projectcapacitors = projectcapacitors;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public List<UCs> getProjectucs() {
-        return this.projectucs;
+    public List<Capacitors> getCapacitors() {
+        return capacitors;
     }
 
-    public void setProjectucs(List<UCs> projectucs) {
-        this.projectucs = projectucs;
+    public void setCapacitors(List<Capacitors> capacitors) {
+        this.capacitors = capacitors;
     }
 
-    public List<Resistors> getProjectresistors() {
-        return this.projectresistors;
+    public List<Resistors> getResistors() {
+        return resistors;
     }
 
-    public void setProjectresistors(List<Resistors> projectresistors) {
-        this.projectresistors = projectresistors;
+    public void setResistors(List<Resistors> resistors) {
+        this.resistors = resistors;
+    }
+
+    public List<UCs> getUcs() {
+        return ucs;
+    }
+
+    public void setUcs(List<UCs> ucs) {
+        this.ucs = ucs;
+    }
+
+    public ProjectStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ProjectStatus status) {
+        this.status = status;
+    }
+
+    public void addCapacitor(Capacitors capacitor) {
+        this.capacitors.add(capacitor);
+    }
+
+    public void addResistor(Resistors resistors) {
+        this.resistors.add(resistors);
+    }
+
+    public void addUC(UCs uc) {
+        this.ucs.add(uc);
     }
 
     @Override
@@ -116,7 +140,7 @@ public class Projects implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are
+        // TODO: Warning - this method won't work in the case the id fields are
         // not set
         if (!(object instanceof Projects)) {
             return false;

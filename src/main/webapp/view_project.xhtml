@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./templates/MainTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:form="http://www.springframework.org/tags/form">
+
+    <ui:define name="top">
+        <p>Widok projektu/p>
+    </ui:define>
+
+    <ui:define name="left">
+        <ui:include src="./templates/menu.xhtml" />
+    </ui:define>
+
+    <ui:define name="content">
+        <h:panelGrid columns="2">
+            <h:column>Opis projektu:</h:column>
+            <h:column>  #{viewProjectBean.project.description}</h:column>
+
+            <h:column>Status:</h:column>
+            <h:column>  #{viewProjectBean.project.status.text}</h:column>
+
+            <h:column>Wykorzystane elementy:</h:column>
+            <h:column>
+                <h:panelGrid columns="2">
+                    <h:column>Kondensatory:</h:column>
+                    <h:column>
+                        <h:dataTable var="row" value="#{viewProjectBean.project.capacitors}">
+                            <h:column id="name">
+                                <f:facet name="header">Pojemność</f:facet>
+                                <h:outputText value="#{row.c} #{row.unit} F" />
+                            </h:column>
+                        </h:dataTable> 
+                    </h:column>
+                    
+                    <h:column>Oporniki:</h:column>
+                    <h:column>
+                        <h:dataTable var="row" value="#{viewProjectBean.project.resistors}">
+                            <h:column id="name">
+                                <f:facet name="header">Opór</f:facet>
+                                <h:outputText value="#{row.r} #{row.unit} Omh" />
+                            </h:column>
+                        </h:dataTable> 
+                    </h:column>
+                    
+                    <h:column>IC:</h:column>
+                    <h:column>
+                        <h:dataTable var="row" value="#{viewProjectBean.project.ucs}">
+                            <h:column id="name">
+                                <f:facet name="header">Nazwa</f:facet>
+                                <h:outputText value="#{row.name}" />
+                            </h:column>
+                            <h:column id="type">
+                                <f:facet name="header">Typ</f:facet>
+                                <h:outputText value="#{row.type}" />
+                            </h:column>
+                            <h:column id="name">
+                                <f:facet name="header">Package Type</f:facet>
+                                <h:outputText value="#{row.packageType}" />
+                            </h:column>
+                        </h:dataTable> 
+                    </h:column>
+                </h:panelGrid>
+            </h:column>
+        </h:panelGrid>
+
+        <h:button value="Zmień status" outcome="change_state.xhtml" /><br/>
+        <h:button value="Edytuj" outcome="edit_project.xhtml" /><br/>
+        <h:button value="Dodaj elementy" outcome="add_elements.xhtml" /><br/>
+        <h:button value="Wróc" outcome="list_projects.xhtml" /><br/>
+    </ui:define>
+</ui:composition>
+

@@ -8,11 +8,15 @@ package pl.lodz.p.it.java.model;
 import java.io.Serializable;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -37,22 +41,34 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Capacitors implements Serializable, Element {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @Basic(optional = false)
     @NotNull
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "CapacitorsIdGen")
     @Column(name = "Id")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "C")
     private int c;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 0, max = 2147483647)
     @Column(name = "Unit")
     private String unit;
-  
+    
+    @NotNull
+    @Column(name = "used")
+    private boolean used = false;
+
+    @JoinTable(name = "projectcapacitor", joinColumns = {
+        @JoinColumn(name = "capacitor", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "project", referencedColumnName = "id")})
+    private Projects project;
+
     public Capacitors() {
     }
 
@@ -89,9 +105,25 @@ public class Capacitors implements Serializable, Element {
     public void setUnit(CapacityUnit unit) {
         this.unit = unit.toString();
     }
-    
+
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    public Projects getProject() {
+        return project;
+    }
+
+    public void setProject(Projects project) {
+        this.project = project;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
     }
 
     @Override

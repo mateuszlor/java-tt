@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./templates/MainTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:form="http://www.springframework.org/tags/form">
+
+    <ui:define name="top">
+        <p>Dodaj elementy do projektu</p>
+    </ui:define>
+
+    <ui:define name="left">
+        <ui:include src="./templates/menu.xhtml" />
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <h:panelGrid columns="2">
+                <h:column>
+                    Kondensaotry    
+                </h:column>
+                <h:column>
+                    <h:selectManyListbox value="#{addElementBean.choosenCapacitors}">
+                        <f:selectItems value="#{addElementBean.capacitors}" var="var"
+                                       itemValue="#{var.id}"
+                                       itemLabel="#{var.c} #{var.unit} F" />
+                    </h:selectManyListbox>
+                </h:column>
+
+                <h:column>
+                    Oporniki    
+                </h:column>
+                <h:column>
+                    <h:selectManyListbox value="#{addElementBean.choosenResistors}">
+                        <f:selectItems value="#{addElementBean.resistors}" var="var"
+                                       itemValue="#{var.id}"
+                                       itemLabel="#{var.r} #{var.unit} Omh" />
+                    </h:selectManyListbox>
+                </h:column>
+
+                <h:column>
+                    IC    
+                </h:column>
+                <h:column>
+                    <h:selectManyListbox value="#{addElementBean.choosenUcs}">
+                        <f:selectItems value="#{addElementBean.ucs}" var="var"
+                                       itemValue="#{var.id}"
+                                       itemLabel="#{var.name}\t-\t#{var.type}\t#{var.packageType}" />
+                    </h:selectManyListbox>
+                </h:column>
+            </h:panelGrid>
+            <h:commandButton action="#{addElementBean.save()}" value="Zapisz" /><br />
+            <h:button outcome="view_project.xhtml" value="Anuluj" />
+        </h:form>
+    </ui:define>
+</ui:composition>
+
